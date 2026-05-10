@@ -1,0 +1,56 @@
+services:
+  bd:
+    build:
+      context: ./BD-DevOpsEv2/bd
+    container_name: innovatech-bd
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: innovatech_ops
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - innovatech-net
+
+  backend:
+    build:
+      context: ./Backend-DevOpsEv2/backend
+    container_name: innovatech-backend
+    restart: always
+    environment:
+      PORT: 3001
+      DB_HOST: bd
+      DB_PORT: 3306
+      DB_NAME: innovatech_ops
+      DB_USER: root
+      DB_PASSWORD: root123
+      CORS_ORIGIN: http://localhost
+    ports:
+      - "3001:3001"
+    depends_on:
+      - bd
+    networks:
+      - innovatech-net
+
+  frontend:
+    build:
+      context: ./Frontend-DevOpsEv2/frontend
+      args:
+        VITE_API_URL: http://localhost:3001
+    container_name: innovatech-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - innovatech-net
+
+volumes:
+  mysql_data:
+
+networks:
+  innovatech-net:
+    driver: bridge
