@@ -34,5 +34,5 @@ jobs:
         run: |
           docker build \
             --build-arg VITE_API_URL=http://10.0.128.152:3001 \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+            -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./frontend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
