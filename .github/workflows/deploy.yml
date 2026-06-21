@@ -34,6 +34,6 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           docker build \
-            --build-arg VITE_API_URL=http://10.0.139.102:3001 \
+            --build-arg VITE_API_URL=http://10.0.132.127:3001 \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./frontend
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
